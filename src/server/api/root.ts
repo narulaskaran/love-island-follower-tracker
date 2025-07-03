@@ -1,6 +1,5 @@
-import { postRouter } from "@/server/api/routers/post";
 import { profileRouter } from "@/server/api/routers/profile";
-import { scrapingRouter } from "@/server/api/routers/scraping";
+import { scrapingRouter } from "@/server/api/routers/scraping-simple";
 import { createCallerFactory, createTRPCRouter } from "@/server/api/trpc";
 
 /**
@@ -9,7 +8,6 @@ import { createCallerFactory, createTRPCRouter } from "@/server/api/trpc";
  * All routers added in /api/routers should be manually added here.
  */
 export const appRouter = createTRPCRouter({
-  post: postRouter,
   profile: profileRouter,
   scraping: scrapingRouter,
 });

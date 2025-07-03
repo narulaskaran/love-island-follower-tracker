@@ -43,12 +43,14 @@ export default function Home() {
   const [isUpdating, setIsUpdating] = useState(false);
   const [updateMessage, setUpdateMessage] = useState("");
   
-  const updateAllFollowerCounts = api.scraping.updateAllFollowerCounts.useMutation({
+  const testConnection = api.scraping.testDb.useMutation({
     onSuccess: (data) => {
+      console.log('DB test success:', data);
       setUpdateMessage(`✅ ${data.message}`);
       setIsUpdating(false);
     },
     onError: (error) => {
+      console.error('DB test error:', error);
       setUpdateMessage(`❌ ${error.message}`);
       setIsUpdating(false);
     },
@@ -56,8 +58,8 @@ export default function Home() {
 
   const handleUpdateClick = () => {
     setIsUpdating(true);
-    setUpdateMessage("🔄 Updating follower counts...");
-    updateAllFollowerCounts.mutate();
+    setUpdateMessage("🔄 Testing database connection...");
+    testConnection.mutate();
   };
 
   return (

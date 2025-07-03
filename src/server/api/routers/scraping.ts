@@ -10,6 +10,7 @@ export const scrapingRouter = createTRPCRouter({
       
       try {
         // Get all profiles from database
+        console.log("📊 Fetching profiles from database...");
         const profiles = await ctx.db.profile.findMany({
           select: {
             id: true,
@@ -17,6 +18,7 @@ export const scrapingRouter = createTRPCRouter({
             instagramUrl: true,
           },
         });
+        console.log(`📊 Found ${profiles.length} profiles in database`);
 
         if (profiles.length === 0) {
           return {
@@ -210,6 +212,82 @@ export const scrapingRouter = createTRPCRouter({
         return result;
       } catch (error) {
         console.error("Test scraping error:", error);
+        return {
+          success: false,
+          error: error instanceof Error ? error.message : "Unknown error",
+        };
+      }
+    }),
+
+  // Simple test endpoint to verify tRPC is working
+  testConnection: publicProcedure
+    .query(async ({ ctx }) => {
+      console.log("🔗 Testing database connection...");
+      
+      try {
+        const count = await ctx.db.profile.count();
+        console.log(`✅ Database connection successful. Found ${count} profiles.`);
+        
+        return {
+          success: true,
+          message: `Database connection successful. Found ${count} profiles.`,
+          profileCount: count,
+        };
+      } catch (error) {
+        console.error("❌ Database connection error:", error);
+        return {
+          success: false,
+          error: error instanceof Error ? error.message : "Unknown error",
+        };
+      }
+    }),
+
+  // Test adding mock follower counts without scraping
+  testMockUpdate: publicProcedure
+    .mutation(async ({ ctx }) => {
+      console.log("🧪 Testing mock follower count update...");
+      
+      try {
+        // Get first profile
+        const profile = await ctx.db.profile.findFirst({
+          select: {
+            id: true,
+            name: true,
+            instagramUrl: true,
+          },
+        });
+
+        if (!profile) {
+          return {
+            success: false,
+            error: "No profiles found in database",
+          };
+        }
+
+        // Add mock follower count
+        const mockFollowerCount = Math.floor(Math.random() * 50000) + 100000;
+        
+        await ctx.db.followerCount.create({
+          data: {
+            profileId: profile.id,
+            count: mockFollowerCount,
+            timestamp: new Date(),
+          },
+        });
+
+        console.log(`✅ Added mock follower count for ${profile.name}: ${mockFollowerCount}`);
+        
+        return {
+          success: true,
+          message: `Added mock follower count for ${profile.name}: ${mockFollowerCount.toLocaleString()}`,
+          data: {
+            profileId: profile.id,
+            name: profile.name,
+            followerCount: mockFollowerCount,
+          },
+        };
+      } catch (error) {
+        console.error("❌ Mock update error:", error);
         return {
           success: false,
           error: error instanceof Error ? error.message : "Unknown error",
