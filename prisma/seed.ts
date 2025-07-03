@@ -9,11 +9,11 @@ async function main() {
   const contestants = [
     {
       name: "Serena Page",
-      instagramUrl: "https://instagram.com/serenapage.e",
+      instagramUrl: "https://instagram.com/serenaapagee",
     },
     {
-      name: "Kordell Beckham", 
-      instagramUrl: "https://instagram.com/kb_25x",
+      name: "Kordell Beckham",
+      instagramUrl: "https://instagram.com/korde1l",
     },
     {
       name: "Leah Kateb",
@@ -21,15 +21,15 @@ async function main() {
     },
     {
       name: "Rob Rausch",
-      instagramUrl: "https://instagram.com/rob.rausch",
+      instagramUrl: "https://instagram.com/robert_rausch",
     },
     {
       name: "JaNa Craig",
-      instagramUrl: "https://instagram.com/itsjanaababy",
+      instagramUrl: "https://instagram.com/janacraig_",
     },
     {
       name: "Kenny Rodriguez",
-      instagramUrl: "https://instagram.com/kennylrodriguez",
+      instagramUrl: "https://instagram.com/k_rod223",
     },
     {
       name: "Nicole Jacky",
@@ -37,7 +37,7 @@ async function main() {
     },
     {
       name: "Kendall Washington",
-      instagramUrl: "https://instagram.com/kendallwashington_",
+      instagramUrl: "https://instagram.com/kendallwashington",
     },
   ];
 
@@ -65,7 +65,9 @@ async function main() {
       },
     });
 
-    console.log(`📊 Added initial follower count: ${initialCount.toLocaleString()}`);
+    console.log(
+      `📊 Added initial follower count: ${initialCount.toLocaleString()}`,
+    );
   }
 
   console.log("✨ Seeding completed!");

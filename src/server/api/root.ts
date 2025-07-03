@@ -1,5 +1,5 @@
 import { profileRouter } from "@/server/api/routers/profile";
-import { scrapingRouter } from "@/server/api/routers/scraping-simple";
+import { scrapingRouter } from "@/server/api/routers/scraping";
 import { createCallerFactory, createTRPCRouter } from "@/server/api/trpc";
 
 /**
