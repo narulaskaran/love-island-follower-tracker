@@ -10,11 +10,31 @@ datasource db {
     url      = env("DATABASE_URL")
 }
 
-model Post {
-    id        Int      @id @default(autoincrement())
-    name      String
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
-
+model Profile {
+    id            String          @id @default(cuid())
+    name          String
+    instagramUrl  String          @unique
+    profileImage  String?         // Optional profile image URL
+    createdAt     DateTime        @default(now())
+    updatedAt     DateTime        @updatedAt
+    
+    // Relation to FollowerCount
+    followerCounts FollowerCount[]
+    
     @@index([name])
+    @@index([instagramUrl])
+}
+
+model FollowerCount {
+    id        String   @id @default(cuid())
+    profileId String   // Foreign key to Profile
+    count     Int      // Follower count
+    timestamp DateTime @default(now())
+    
+    // Relation to Profile
+    profile   Profile  @relation(fields: [profileId], references: [id], onDelete: Cascade)
+    
+    @@index([profileId])
+    @@index([timestamp])
+    @@index([profileId, timestamp])
 }
